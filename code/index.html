@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation with JavaScript</title>
+    <style>
+        .error {
+            border: 2px solid red;
+        }
+        .error:focus {
+            box-shadow: 0 0 5px red;
+            outline: none;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm">
+        <fieldset>
+            <legend>Personal Information</legend>
+
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="first-name" placeholder="Enter your first name">
+            <div id="first-name-error" class="error-message"></div>
+            <br><br>
+
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" placeholder="Enter your last name">
+            <div id="last-name-error" class="error-message"></div>
+            <br><br>
+
+            <button type="submit">Submit</button>
+        </fieldset>
+    </form>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Clear previous error messages
+            document.getElementById('first-name-error').textContent = '';
+            document.getElementById('last-name-error').textContent = '';
+
+            // Validate first name
+            const firstName = document.getElementById('first-name');
+            if (!firstName.value.trim()) {
+                firstName.classList.add('error');
+                // document.getElementById('first-name-error').textContent = 'First name is required.';
+                isValid = false;
+            } else {
+                firstName.classList.remove('error');
+            }
+
+            // Validate last name
+            const lastName = document.getElementById('last-name');
+            if (!lastName.value.trim()) {
+                lastName.classList.add('error');
+                // document.getElementById('last-name-error').textContent = 'Last name is required.';
+                isValid = false;
+            } else {
+                lastName.classList.remove('error');
+            }
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
+</body>
+</html>
