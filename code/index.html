@@ -1,76 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Validation with JavaScript</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Checkbox</title>
     <style>
-        .error {
-            border: 2px solid red;
-        }
-        .error:focus {
-            box-shadow: 0 0 5px red;
-            outline: none;
-        }
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            margin-top: -10px;
-            margin-bottom: 10px;
-        }
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #007bff;
+        border-radius: 3px;
+        display: inline-block;
+        position: relative;
+      }
+
+      .checkbox.checked {
+        background-color: #007bff;
+      }
+
+      .checkbox.checked::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 7px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
+      .label {
+        margin-left: 10px;
+        font-size: 16px;
+      }
     </style>
-</head>
-<body>
-    <form id="myForm">
-        <fieldset>
-            <legend>Personal Information</legend>
+  </head>
+  <body>
+    <!-- Custom checkbox with role and ARIA attributes -->
+    <div class="checkbox-container"
+      tabindex="0"
+      role="checkbox"
+      aria-checked="false"
+      >
+      <div class="checkbox"></div></div>
+      <div class="label">I agree to the terms</div>
+      <!-- Label for the checkbox -->
+    </div></br>
 
-            <label for="first-name">First Name:</label>
-            <input type="text" id="first-name" name="first-name" placeholder="Enter your first name">
-            <div id="first-name-error" class="error-message"></div>
-            <br><br>
+    <!-- Button with ARIA label for accessibility -->
+    <button aria-label="Close" onclick="closeWindow()">X</button></br>
 
-            <label for="last-name">Last Name:</label>
-            <input type="text" id="last-name" name="last-name" placeholder="Enter your last name">
-            <div id="last-name-error" class="error-message"></div>
-            <br><br>
+    <!-- Link styled as a button with ARIA label -->
+    <a href="#" role="button" aria-label="Submit form">Submit</a></br>
 
-            <button type="submit">Submit</button>
-        </fieldset>
-    </form>
+    <!-- Button with ARIA-haspopup to indicate a dropdown or menu -->
+    <button aria-haspopup="true">Options</button></br>
 
+    <!-- Label and input field with associated for attribute -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" /></br>
+
+    <!-- Input field with aria-labelledby for accessibility -->
+    <div id="nameLabel">Name:</div>
+    <input type="text" aria-labelledby="nameLabel" /></br>
+
+
+    <!-- Live region to announce dynamic content updates -->
+    <div aria-live="polite">Status: All systems go!</div></br>
+    <!-- Live region announcing updates politely -->
+
+    <!-- Polite live region -->
+    <div aria-live="polite">
+      This content will be announced politely at a convenient time.
+    </div>
+
+    <!-- Assertive live region -->
+    <div aria-live="assertive">
+      This content needs immediate attention and will be announced right away.
+    </div>
+
+    <!-- Off live region -->
+    <div aria-live="off">
+      Updates in this section will not be announced by screen readers.
+    </div>
+    <!-- composit roles -->
+    <input role="combobox">
+    <ul role="listbox">
+      <li role="option">Puns</li>
+      <li role="option">Riddles</li>
+      <li role="option">Observations</li>
+      <li role="option">Knock-knock</li>
+      <li role="option">One liners</li>
+    </ul>
+    <!-- aria-describedby -->
+    <button aria-describedby="trash-desc">Delete</button>
+    <p id="trash-desc">Items in the trash will be permanently removed after 30 days.</p>
+    
     <script>
-        document.getElementById('myForm').addEventListener('submit', function(event) {
-            let isValid = true;
+      const checkboxContainer = document.querySelector(".checkbox-container");
+      const checkbox = document.querySelector(".checkbox");
 
-            // Clear previous error messages
-            document.getElementById('first-name-error').textContent = '';
-            document.getElementById('last-name-error').textContent = '';
+      checkboxContainer.addEventListener("click", function () {
+        checkbox.classList.toggle("checked");
+        const isChecked = checkbox.classList.contains("checked");
+        checkboxContainer.setAttribute("aria-checked", isChecked);
+      });
 
-            // Validate first name
-            const firstName = document.getElementById('first-name');
-            if (!firstName.value.trim()) {
-                firstName.classList.add('error');
-                // document.getElementById('first-name-error').textContent = 'First name is required.';
-                isValid = false;
-            } else {
-                firstName.classList.remove('error');
-            }
-
-            // Validate last name
-            const lastName = document.getElementById('last-name');
-            if (!lastName.value.trim()) {
-                lastName.classList.add('error');
-                // document.getElementById('last-name-error').textContent = 'Last name is required.';
-                isValid = false;
-            } else {
-                lastName.classList.remove('error');
-            }
-
-            if (!isValid) {
-                event.preventDefault(); // Prevent form submission if validation fails
-            }
-        });
+      checkboxContainer.addEventListener("keydown", function (e) {
+        if (e.key === " " || e.key === "Enter") {
+          e.preventDefault();
+          checkbox.click();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
